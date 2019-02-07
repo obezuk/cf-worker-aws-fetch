@@ -1,0 +1,17 @@
+{
+  "name": "workers-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "webpack -p --progress --colors",
+    "preview": "./scripts/open-preview < dist/worker.js"
+  },
+  "main": "dist/worker.js",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "aws4fetch": "^1.0.0",
+    "webpack": "^4.10.2",
+    "webpack-cli": "^3.2.1"
+  }
+}

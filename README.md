@@ -1,10 +1,8 @@
 Workers Webpack & Rollup Examples
 ====
 [Cloudflare Workers](http://developers.cloudflare.com/workers/) allow you to write JavaScript which runs on all of Cloudflare's
-160+ global data centers. This repo is an example of how to combine multiple files and dependencies to create a Worker using
-the [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/) build tools.
-> Note: the Rollup config in this project supports Node-style `require()` and ES6 `import`
-
+160+ global data centers.
+- This repo is an example of how to combine multiple files and dependencies to create a Worker using the [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/) build tools.
 - The sample Worker (`src/index.js`) replaces the content of your site with a Worker which returns the current time in the timezone of the caller's choice.
 - Once you've created your bundle, you can test it without leaving your text editor! Just run `npm run preview url=https://google.com?tz=America/New_York`
 
@@ -23,6 +21,7 @@ npm install
 
 ```
 
+*Note: the Rollup config in this project supports Node-style `require()` and ES6 `import*
 ```sh
 # Build with Webpack
 npm run build

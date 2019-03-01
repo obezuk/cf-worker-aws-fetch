@@ -99,6 +99,16 @@ async function handleRequest(event) {
     headers.set('worker-cn-statuscode', cnOriginResponse.status);
     headers.set('worker-cn-status-message', 'China origin fulfilled request.');
     var response = cnOriginResponse;
+
+    // Range Requests: If a range request is made for an uncached asset, fetch range from origin and open a separate full connection to download the object so future range requests are served from cache.
+
+    if (cnOriginRequest.headers.has('range')) {
+      headers.set('worker-cn-status-range', 'Caching full object from CN');
+      var cnStripRangeRequest = new Request(cnOriginRequest.url);
+      var cnStripRangeResponse = await fetch(cnStripRangeRequest);
+      event.waitUntil(cache.put(request, cnStripRangeResponse)); // Cache the full response.
+    }
+
   } else { // Fallback to default origin server.
     var response = await fetch(modifiedRequest, fetchOptions);
     var headers = new Headers(response.headers);
@@ -107,12 +117,13 @@ async function handleRequest(event) {
     headers.set('worker-us-statuscode', response.status);
     headers.set('worker-cn-status-message', 'China origin returned a non-200 response.');
 
-    // Range Requests: If a range request is made for an uncached asset, fetch range from origin and open a separate full connection to download the object.
+    // Range Requests: If a range request is made for an uncached asset, fetch range from origin and open a separate full connection to download the object so future range requests are served from cache.
 
     if (modifiedRequest.headers.has('range')) {
       var stripRangeRequest = new Request(modifiedRequest.url);
       var stripRangeResponse = await fetch(stripRangeRequest);
-      event.waitUntil(cache.put(modifiedRequest, stripRangeResponse.clone())); // Cache the full response.
+      headers.set('worker-cn-status-range', 'Caching full object from US');
+      event.waitUntil(cache.put(request, stripRangeResponse.clone())); // Cache the full response.
       event.waitUntil(putS3(cnOriginRequest.url, stripRangeResponse));
     } else {
       event.waitUntil(putS3(cnOriginRequest.url, response.clone()));
@@ -133,7 +144,7 @@ async function handleRequest(event) {
   });
 
   if (!modifiedRequest.headers.has('range')) { // Don't Cache Range Requests. Subsequent Range Requests will be served from cache when the full payload is transferred.
-    event.waitUntil(cache.put(modifiedRequest, result.clone()));
+    event.waitUntil(cache.put(request, result.clone()));
   }
 
   return result;

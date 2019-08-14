@@ -20,23 +20,3 @@ cd cf-worker-aws-fetch
 npm install
 
 ```
-
-*Note: the Rollup config in this project supports Node-style `require()` and ES6 `import*
-```sh
-# Build with Webpack
-npm run build
-
-# Build with Rollup (ES6 modules)
-npm run rollup
-
-# Build with Rollup (CommonJS)
-npm run rollup:cjs
-
-# Build with Rollup (UMD)
-npm run rollup:umd
-```
-
-```sh
-# Open the Workers preview with the built Worker:
-npm run preview url=https://www.cloudflare.com
-```

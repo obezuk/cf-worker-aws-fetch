@@ -7,7 +7,7 @@ const aws = new AwsClient({
 
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event))
-});a``
+});
 
 async function handleRequest(event) {
 

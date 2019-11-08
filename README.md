@@ -18,5 +18,7 @@ Workers Webpack & Rollup Examples
 git clone https://github.com/obezuk/cf-worker-aws-fetch.git
 cd cf-worker-aws-fetch
 npm install
+npm run build
 
 ```
+Bundled script will be available in ./dist/worker.js

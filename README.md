@@ -21,4 +21,4 @@ npm install
 npm run build
 
 ```
-Bundled script will be available in ./dist/worker.js
+Bundled script will be available in `./dist/worker.js`

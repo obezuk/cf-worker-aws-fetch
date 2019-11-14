@@ -1,0 +1,6 @@
+name = "cf-worker-aws-fetch"
+type = "webpack"
+account_id = "your account id"
+zone_id = "your zone id"
+route = "your route pattern"
+webpack_config = "webpack.dev.js"
